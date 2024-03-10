@@ -8,6 +8,8 @@ import OrganizationSelector from '../OrganizationSelector'
 import User from '../User'
 import useScrollDetector from '../../hooks/useScrollDetector'
 import useOverflowItems from '../../hooks/useOverflowItems'
+import useScreenSize from '../../hooks/useScreenSize'
+import { SCREEN_MD } from '../../utils/constants'
 import { INDEX_URL } from '../../utils/urls'
 import LINKS from '../../utils/links'
 
@@ -22,9 +24,12 @@ const COMPANY_NAME = 'Company'
 
 const Navbar = ({ defaultDark = false }) => {
   const [isExpanded, setIsExpanded] = useState(false)
+  const [selectedLink, setSelectedLink] = useState({});
 
   let { pathname } = useLocation()
   const linksRef = useRef(null)
+  const { width: windowWidth } = useScreenSize()
+  const isMobile = windowWidth <= SCREEN_MD
   const isPageScrolled = useScrollDetector()
   const { areOverflow, overflowItems } = useOverflowItems({ ref: linksRef, childClassName: styles.linkContainer })
 
@@ -34,7 +39,13 @@ const Navbar = ({ defaultDark = false }) => {
 
   const onClickExpand = () => setIsExpanded(!isExpanded)
 
-  const onClickLink = () => setIsExpanded(false)
+  const onClickLink = (link) => {
+    if (!link.hasSubLinks) {
+      setIsExpanded(false)
+    } else if (isMobile) {
+      setSelectedLink(link)
+    }
+  }
 
   return (
     <header className={`${styles.navbar} ${isPageScrolled || defaultDark ? styles.isScrolled : ''} ${!isExpanded ? styles.isClosed : ''}`}>
@@ -50,20 +61,20 @@ const Navbar = ({ defaultDark = false }) => {
         <div className={styles.restLinks}>
           <nav className={`${styles.links} ${areOverflow ? styles.areOverflow : ''}`} ref={linksRef}>
             <div className={styles.visibleLinks} >
-              {visibleLinks.map(({ href, text, mainLinks, secondaryLinks, visible, hasSubLinks }, linkIdx) =>
-                <div className={`${styles.linkContainer} ${!visible ? styles.hide : ''}`} key={linkIdx}>
+              {visibleLinks.map((link, linkIdx) =>
+                <div className={`${styles.linkContainer} ${!link.visible ? styles.hide : ''}`} key={linkIdx}>
                   <a
-                    className={`${styles.link} ${pathname === href ? styles.active : ''}`}
-                    href={href}
-                    onClick={onClickLink}
+                    className={`${styles.link} ${pathname === link.href ? styles.active : ''}`}
+                    href={(!isMobile || !link.hasSubLinks) ? link.href : null}
+                    onClick={() => onClickLink(link)}
                   >
-                    {text} {hasSubLinks && <img src={chevron} alt="" />}
+                    {link.text} {link.hasSubLinks && <img src={chevron} alt="" />}
                   </a>
-                  {hasSubLinks &&
+                  {link.hasSubLinks &&
                     <div className={`${styles.subLinks} shadow`}>
-                      {!!mainLinks?.length &&
+                      {!!link.mainLinks?.length &&
                         <div className={styles.firstLinks}>
-                          {mainLinks.map(({ text, href }, mainLinkIdx) =>
+                          {link.mainLinks.map(({ text, href }, mainLinkIdx) =>
                             <a
                               key={mainLinkIdx}
                               className={`${styles.link} ${styles.subLink}`}
@@ -75,9 +86,9 @@ const Navbar = ({ defaultDark = false }) => {
                           )}
                         </div>
                       }
-                      {!!secondaryLinks?.length &&
+                      {!!link.secondaryLinks?.length &&
                         <div className={styles.secondaryLinks}>
-                          {secondaryLinks.map(({ text, href }, secondaryLinkIdx) =>
+                          {link.secondaryLinks.map(({ text, href }, secondaryLinkIdx) =>
                             <a
                               key={secondaryLinkIdx}
                               className={`${styles.link} ${styles.subLink}`}
@@ -154,6 +165,38 @@ const Navbar = ({ defaultDark = false }) => {
             <Button className={styles.closeSession}>
               Cerrar sesión <img src={off} alt="" />
             </Button>
+          </nav>
+          <nav className={`${styles.mobileSubMenu} ${!selectedLink.hasSubLinks ? styles.hide : ''}`}>
+            <div className={`${styles.subLinks} shadow`}>
+              {!!selectedLink?.mainLinks?.length &&
+                <div className={styles.firstLinks}>
+                  {selectedLink.mainLinks.map(({ text, href }, mainLinkIdx) =>
+                    <a
+                      key={mainLinkIdx}
+                      className={`${styles.link} ${styles.subLink}`}
+                      href={href}
+                      onClick={onClickLink}
+                    >
+                      {text}
+                    </a>
+                  )}
+                </div>
+              }
+              {!!selectedLink?.secondaryLinks?.length &&
+                <div className={styles.secondaryLinks}>
+                  {selectedLink.secondaryLinks.map(({ text, href }, secondaryLinkIdx) =>
+                    <a
+                      key={secondaryLinkIdx}
+                      className={`${styles.link} ${styles.subLink}`}
+                      href={href}
+                      onClick={onClickLink}
+                    >
+                      {text}
+                    </a>
+                  )}
+                </div>
+              }
+            </div>
           </nav>
         </div>
       </div>

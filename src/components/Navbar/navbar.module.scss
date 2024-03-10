@@ -100,6 +100,10 @@
     padding: $size-sm $size-md;
     text-decoration: none;
 
+    &:hover {
+      cursor: pointer;
+    }
+
     &.active:not(:hover) {
       background-color: rgba($secondary, 0.3);
     }
@@ -246,6 +250,10 @@
   .closeSession {
     display: none;
   }
+
+  .mobileSubMenu {
+    display: none;
+  }
 }
 
 @media screen and (max-width: $screen-size-md) {
@@ -254,6 +262,7 @@
       .linksContainer {
         .restLinks {
           height: 0;
+          max-height: 0;
           opacity: 0;
           padding: 0 $size-lg;
           visibility: hidden;
@@ -303,7 +312,7 @@
         padding: $size-lg;
         position: absolute;
         top: $size-xxl;
-        transition: all $transition-fast linear;
+        transition: all $transition-fast linear, padding 0s;
         width: 100%;
         z-index: 11;
       }
@@ -329,6 +338,7 @@
       padding: 0;
 
       &:hover {
+
         >.link {
           background-color: $background-gray;
         }
@@ -438,6 +448,18 @@
           width: $size-lg;
         }
       }
+
+      .mobileSubMenu {
+        display: flex;
+        flex-direction: column;
+        gap: $size-sm;
+        position: absolute;
+        background-color: red;
+        width: 100%;
+        height: 200px;
+        right: 0;
+      }
+
     }
   }
 }
