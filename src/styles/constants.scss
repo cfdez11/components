@@ -1,0 +1,77 @@
+// COLORS
+$primary: #3177fd;
+$primary-dark: darken($primary, 5);
+$primary-light: lighten($primary, 5);
+$primary-darker: darken($primary-dark, 5);
+$primary-lighter: lighten($primary-light, 5);
+
+$secondary: #002868;
+$secondary-dark: darken($secondary, 5);
+$secondary-light: lighten($secondary, 5);
+$secondary-darker: darken($secondary-dark, 5);
+$secondary-lighter: lighten($secondary-light, 5);
+
+$tertiary: #ff385c;
+$tertiary-dark: darken($tertiary, 5);
+$tertiary-light: lighten($tertiary, 5);
+$tertiary-darker: darken($tertiary-dark, 5);
+$tertiary-lighter: lighten($tertiary-light, 5);
+
+$accent: #50d3fe;
+$accent-dark: darken($accent, 5);
+$accent-light: lighten($accent, 5);
+$accent-darker: darken($accent-dark, 5);
+$accent-lighter: lighten($accent-light, 5);
+
+$gray: #888888;
+$gray-dark: darken($gray, 10);
+$gray-light: lighten($gray, 10);
+$gray-darker: darken($gray-dark, 10);
+$gray-lighter: lighten($gray-light, 25);
+
+$white: #ffffff;
+$black: #212529;
+$background-gray: #f1f1f1;
+$cream-white: #f8f8f8;
+$color-error: #EF5350;
+$color-success: #9CCC65;
+$color-warning: #FFCA28;
+$color-info: #344054;
+$gray-classic: #808080;
+$color-text: #4c5566;
+$color-whatsapp: #25D366;
+
+// TRANSITIONS
+$transition-fast: 0.1s;
+$transition-mid: 0.25s;
+$transition-slow: 0.5s;
+
+// SIZES
+$size-xs: 2px;
+$size-sm: 4px;
+$size-md: 8px;
+$size-lg: 16px;
+$size-xl: 32px;
+$size-xxl: 64px;
+$size-xxxl: 124px;
+
+$sidebar-width: 200px;
+$modal-width: 700px;
+$padding-section: 150px;
+$page-max-width: 1200px;
+
+// FONTS
+$font-xxxs: 10px;
+$font-xxs: 12px;
+$font-xs: 14px;
+$font-sm: 16px;
+$font-md: 20px;
+$font-lg: 24px;
+$font-xl: 32px;
+$font-xxl: 64px;
+
+// SCREEN SIZES
+$screen-size-sm: 567px;
+$screen-size-md: 768px;
+$screen-size-lg: 896px;
+$screen-size-xl: 1080px;

@@ -1,0 +1,443 @@
+@import "../../styles/constants.scss";
+
+.navbar {
+  background-color: $primary;
+  color: $white;
+  display: flex;
+  height: $size-xxl;
+  justify-content: center;
+  padding: 0 $size-lg;
+  position: fixed;
+  top: 0;
+  transition: all $transition-fast linear;
+  white-space: nowrap;
+  width: 100%;
+  width: 100%;
+  z-index: 999;
+
+  .expandButton {
+    display: none;
+  }
+
+  &.isScrolled {
+    background-color: $black;
+  }
+
+  .linksContainer {
+    display: flex;
+    gap: $size-lg;
+    width: 100%;
+  }
+
+  .mainLinks,
+  .restLinks,
+  .links,
+  .extraLinks {
+    padding: $size-md 0;
+    column-gap: $size-md;
+    display: flex;
+  }
+
+  .mainLinks {
+    display: flex;
+    justify-content: flex-start;
+    min-width: 70px;
+    width: 70px;
+
+    >a {
+      align-items: center;
+      display: flex;
+      height: 100%;
+      padding: 0;
+
+      >img {
+        height: 100%;
+        object-fit: contain;
+        width: 100%;
+      }
+
+      >span {
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  .restLinks {
+    justify-content: space-between;
+    column-gap: $size-md;
+    width: calc(100% - 70px);
+  }
+
+  .links,
+  .restLinks {
+    padding: 0;
+  }
+
+  .extraLinks {
+    min-width: 400px;
+    width: 400px;
+  }
+
+  .links {
+    justify-content: flex-start;
+    width: calc(100% - 400px - 64px); // sub 64px column gap + 400px extra links width
+
+    .visibleLinks {
+      column-gap: $size-md;
+      display: flex;
+    }
+  }
+
+  .link {
+    align-items: center;
+    border-radius: $size-md;
+    color: $white;
+    display: flex;
+    font-size: $font-sm;
+    font-weight: 400;
+    height: 100%;
+    justify-content: center;
+    padding: $size-sm $size-md;
+    text-decoration: none;
+
+    &.active:not(:hover) {
+      background-color: rgba($secondary, 0.3);
+    }
+  }
+
+  .links .linkContainer .link>img {
+    display: none;
+  }
+
+  .linkContainer {
+    position: relative;
+    padding: $size-md 0;
+
+    &.hide {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    &:hover {
+      .link {
+        background-color: rgba($white, 0.1);
+      }
+
+      .subLinks {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+  }
+
+  .subLinks {
+    background-color: $white;
+    border-radius: $size-md;
+    display: flex;
+    display: flex;
+    flex-direction: column;
+    gap: $size-sm;
+    left: 0;
+    opacity: 0;
+    padding: $size-sm;
+    position: absolute;
+    top: calc(100% - 4px);
+    visibility: hidden;
+    width: fit-content;
+
+    .firstLinks,
+    .secondaryLinks {
+      display: flex;
+      flex-direction: column;
+      gap: $size-sm;
+
+      .subLink {
+        color: $black;
+        justify-content: flex-start;
+        padding: $size-md $size-lg;
+        text-align: left;
+
+        &:hover {
+          background-color: $background-gray;
+        }
+      }
+    }
+
+    >div:nth-child(2) {
+      border-top: 1px solid $background-gray;
+      padding-top: $size-sm;
+    }
+  }
+
+  .overflowLinksContainer {
+    align-items: center;
+    display: flex;
+    position: relative;
+
+    .showOverflowLinks {
+      align-items: center;
+      border-radius: $size-md;
+      border: none;
+      display: flex;
+      height: calc(100% - 16px);
+      justify-content: center;
+      padding: $size-md;
+
+      &:hover {
+        background-color: rgba($white, 0.1);
+        cursor: pointer;
+      }
+
+      >img {
+        width: 20px;
+      }
+    }
+
+    &:hover {
+      .overflowLinks {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+
+    .overflowLinks {
+      background-color: $white;
+      border-radius: $size-md;
+      left: 0;
+      opacity: 0;
+      position: absolute;
+      top: calc(100% - 4px);
+      visibility: hidden;
+
+      .linkContainer {
+        padding: $size-xs $size-sm;
+
+        .link {
+          color: $black;
+          column-gap: $size-sm;
+          justify-content: flex-start;
+          justify-content: space-between;
+          padding: $size-md $size-lg;
+
+          &:hover {
+            background-color: $background-gray;
+          }
+
+          &.active {
+            background-color: rgba($primary, 0.1);
+          }
+
+          >img {
+            filter: brightness(0);
+            rotate: -90deg;
+            width: $size-lg;
+          }
+
+        }
+
+        .subLinks {
+          left: calc(100%);
+          top: 0;
+        }
+      }
+    }
+  }
+
+  .closeSession {
+    display: none;
+  }
+}
+
+@media screen and (max-width: $screen-size-md) {
+  .navbar {
+    &.isClosed {
+      .linksContainer {
+        .restLinks {
+          height: 0;
+          opacity: 0;
+          padding: 0 $size-lg;
+          visibility: hidden;
+        }
+      }
+    }
+
+    .hover {
+      display: none;
+    }
+
+    .links .linkContainer .link>img {
+      display: block;
+    }
+
+    .linksContainer {
+
+      .mainLinks,
+      .links,
+      .extraLinks {
+        width: 100%;
+      }
+
+      .expandButton {
+        backdrop-filter: blur($size-md);
+        border-radius: $size-md;
+        border: none;
+        display: flex;
+        margin: 0 0 0 auto;
+        padding: $size-sm $size-md;
+        background-color: transparent;
+
+        >img {
+          width: $size-xl;
+        }
+      }
+
+      .restLinks {
+        background-color: $white;
+        flex-direction: column;
+        flex: none;
+        height: fit-content;
+        justify-content: flex-start;
+        left: 0;
+        max-height: calc(100dvh - 64px);
+        overflow: hidden;
+        padding: $size-lg;
+        position: absolute;
+        top: $size-xxl;
+        transition: all $transition-fast linear;
+        width: 100%;
+        z-index: 11;
+      }
+
+      .links,
+      .extraLinks {
+        flex-direction: column;
+        flex: none;
+        gap: $size-sm;
+        justify-content: center;
+        transition: all $transition-fast linear;
+        width: 100%;
+      }
+
+      .visibleLinks {
+        flex-direction: column;
+        gap: $size-sm;
+      }
+    }
+
+    .linkContainer {
+      justify-content: flex-start;
+      padding: 0;
+
+      &:hover {
+        >.link {
+          background-color: $background-gray;
+        }
+      }
+
+      &.hide {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .link {
+        color: $black;
+        font-size: $font-xs;
+        justify-content: space-between;
+        padding: $size-md;
+        position: relative;
+
+        >img {
+          display: block;
+          filter: brightness(0);
+          rotate: -90deg;
+          width: 20px;
+        }
+
+        &.active:not(:hover) {
+          background-color: rgba($primary, 0.1);
+        }
+      }
+
+      .subLinks {
+        display: none;
+      }
+    }
+
+
+    .overflowLinksContainer {
+      display: none;
+    }
+
+    .extraLinks {
+      border-top: 1px solid $gray-lighter;
+      margin-top: $size-lg;
+      padding-top: $size-lg;
+
+      >div:first-of-type {
+        display: none;
+      }
+
+      >div:nth-of-type(2) {
+        // organization selector
+        background-color: $white;
+        color: $black;
+        justify-content: space-between;
+        padding: $size-md;
+        height: 48px;
+
+        >img {
+          filter: brightness(0);
+          rotate: -90deg;
+          width: 20px;
+        }
+
+        &:hover {
+          background-color: $background-gray;
+        }
+
+      }
+
+      >div:last-of-type {
+        // user button 
+        background-color: $white;
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+
+        &:hover {
+          background-color: $background-gray;
+        }
+
+        >div>span {
+          color: $black;
+          text-align: left;
+        }
+      }
+
+      .closeSession {
+        background-color: $white;
+        border-radius: $size-md;
+        color: $black;
+        display: flex;
+        font-size: $font-sm;
+        font-weight: 400;
+        justify-content: space-between;
+        padding: $size-md;
+        width: 100%;
+        height: 48px;
+
+        &:active {
+          transform: none;
+        }
+
+        &:hover {
+          background-color: $background-gray;
+        }
+
+        >img {
+          margin-bottom: $size-xs;
+          width: $size-lg;
+        }
+      }
+    }
+  }
+}
